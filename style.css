@@ -1,0 +1,149 @@
+/* 基本樣式設定 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    max-height: 50px;
+}
+
+.login-button {
+    flex: 1;
+    text-align: right;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    background-color: blue; /* 初始背景色 */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-button:hover {
+    background-color: darkblue; /* 鼠标悬停时的背景色 */
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.product-details {
+    flex: 1;
+    padding-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Popup 樣式 */
+.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.popup p {
+    margin: 10px 0;
+}
+
+.popup button {
+    margin-top: 10px;
+}
+
+/* 關閉按鈕樣式 */
+.popup a {
+    background-color: #004d00; /* 初始深綠色 */
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* 一鍵複製按鈕樣式 */
+.popup button {
+    margin-right: 10px; /* 按钮之间的间隔 */
+}
+
+@media (max-width: 600px) {
+    .item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .product-details {
+        padding-left: 0;
+        padding-top: 10px;
+    }
+    .login-button {
+        text-align: center;
+    }
+}
