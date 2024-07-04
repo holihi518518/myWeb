@@ -1,4 +1,4 @@
-const products = [    
+const products = [
     {
         imgSrc: "https://www.yucheng-cms.com/MYCData/MYC01SS/Images/Product/A001-2.png",
         name: "桂花紅茶MCT蛋白飲 /12入",
@@ -22,7 +22,7 @@ const products = [
         name: "莓日孅 /10入",
         description: "商品編號：A003<br>",
         price: "建議售價:NT$680"
-    },    
+    },
     {
         imgSrc: "https://www.yucheng-cms.com/MYCData/MYC01SS/Images/Product/A010-2.png",
         name: "暢快莓 /10顆",
@@ -53,7 +53,6 @@ const products = [
         description: "商品編號：E004<br>",
         price: "建議售價:NT$1,680"
     },
-
     {
         imgSrc: "https://www.yucheng-cms.com/MYCData/MYC01SS/Images/Product/D001-1.png",
         name: "三秒復活酸修護素",
@@ -65,7 +64,7 @@ const products = [
         name: "富婆凍膜",
         description: "商品編號：E013<br>",
         price: "建議售價:NT$1,980"
-    },    
+    },
     {
         imgSrc: "https://www.yucheng-cms.com/MYCData/MYC01SS/Images/Product/E021-1.jpg",
         name: "多功能電烤盤",
@@ -101,7 +100,7 @@ loginLinkElement.addEventListener('click', (event) => {
     event.preventDefault();
     showPopupBeforeUnload();
 });
-loginLinkElement.style.backgroundColor = '#9f9900'; 
+loginLinkElement.style.backgroundColor = '#9f9900';
 loginLinkElement.style.color = "white";
 loginLinkElement.style.padding = "10px 20px";
 loginLinkElement.style.fontSize = "16px";
@@ -113,9 +112,9 @@ loginLinkElement.style.display = "inline-block";
 function showPopupBeforeUnload() {
     const popup = document.createElement('div');
     popup.classList.add('popup'); // 使用新的 popup 類別
-    
+
     const message = document.createElement('p');
-    message.innerHTML = '稍後進入會員資料填寫<br>請先複製以下推薦碼<br>';
+    message.innerHTML = '請先登入會員<br>複製推薦碼以進行下一步<br>';
     popup.appendChild(message);
 
     const codeContainer = document.createElement('div');
@@ -127,39 +126,38 @@ function showPopupBeforeUnload() {
     code.style.userSelect = 'text'; // 使文本可复制
     codeContainer.appendChild(code);
 
-    const copyButton = document.createElement('button');
-    copyButton.classList.add('copy-button');
-    copyButton.onclick = async () => {
-        try {
-            await navigator.clipboard.writeText(code.innerText);
-            copyButton.style.backgroundColor = '#f0f0f0'; // 改變複製按鈕顏色
-            nextButton.classList.add('enabled'); // 使下一步按鈕可點擊
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('buttons'); // 按钮容器
+
+    const actionButton = document.createElement('button');
+    actionButton.classList.add('action-button');
+    actionButton.innerText = '複製推薦碼'; // 初始顯示的按鈕文字
+
+    actionButton.onclick = async () => {
+        if (actionButton.innerText === '複製推薦碼') {
+            try {
+                await navigator.clipboard.writeText(code.innerText);
+                actionButton.innerText = '下一步'; // 變更按鈕文字
+                actionButton.classList.add('enabled'); // 使按鈕樣式變更
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        } else if (actionButton.innerText === '下一步') {
+            window.location.href = randomLoginLink; // 前往下一步網址
         }
     };
 
-    codeContainer.appendChild(copyButton);
-    popup.appendChild(codeContainer);
+    buttonContainer.appendChild(actionButton);
 
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('buttons'); // 按钮容器
-    
-    const closeButton = document.createElement('a');
+    const closeButton = document.createElement('button');
     closeButton.classList.add('close-button');
-    closeButton.innerText = '關閉';
-    closeButton.href = '#'; // 使關閉按鈕可點擊
+    closeButton.innerText = '關閉 X'; /*關閉圖示*/
     closeButton.onclick = () => {
         document.body.removeChild(popup);
     };
-    buttonContainer.appendChild(closeButton);
 
-    const nextButton = document.createElement('a');
-    nextButton.classList.add('next-button');
-    nextButton.innerText = '下一步';
-    nextButton.href = randomLoginLink; // 下一步按鈕的鏈接
-    buttonContainer.appendChild(nextButton);
-
+    popup.appendChild(closeButton);
+    popup.appendChild(codeContainer);
     popup.appendChild(buttonContainer);
 
     document.body.appendChild(popup);
@@ -167,6 +165,7 @@ function showPopupBeforeUnload() {
     // 添加動畫效果
     popup.classList.add('show');
 }
+
 
 // 顯示產品清單
 const productSection = document.getElementById('product-section');

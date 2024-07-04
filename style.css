@@ -21,13 +21,18 @@ header {
     left: 0;
     z-index: 1000; /* 确保标头在其他内容之上 */
 }
+h4{
+    color: black;
+    margin-top: 100px;
+    margin-bottom: 0;
+}
 
 .logo-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 100px;/*保持置中*/
+    margin-left: 100px; /*保持置中*/
 }
 
 .logo {
@@ -48,9 +53,7 @@ header {
     display: inline-block;
     margin-right: 20px; /* 添加右边距 */
     margin-top: 10px; /* 添加右边距 */
-
 }
-
 
 .login-button:hover {
     background-color: rgb(247, 255, 21); /* 鼠标悬停时的背景色 */
@@ -62,7 +65,7 @@ header {
     align-items: center;
     width: 100%;
     padding: 10px;
-    margin-top: 80px; /* 确保内容不被固定的标头遮挡 */
+    margin-top: 10px; /* 确保内容不被固定的标头遮挡 */
 }
 
 .item {
@@ -154,20 +157,17 @@ button:hover {
     margin-top: 10px;
 }
 
+
 /* 關閉按鈕樣式 */
 .popup .close-button {
-    background-color: #a8403d; /* 红色背景色 */
-    color: white;
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    text-decoration: none;
-    display: inline-block;
-    pointer-events: auto; /* 允许点击 */
-}
-
-.popup .close-button:hover {
-    background-color: #c9302c; /* 鼠标悬停时的背景色 */
+    color: rgba(96, 1, 1, 0.933);
+    position: absolute; /* 绝对定位 */
+    top: 2px; /* 调整顶部间距 */
+    right: 0; /* 调整右侧间距 */
+    background: none; /* 去掉背景 */
+    border: none; /* 去掉边框 */
+    font-size: 12px; /* 调整字体大小 */
+    cursor: pointer; /* 鼠标指针 */
 }
 
 /* 下一步按鈕樣式 */
@@ -233,7 +233,8 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: center;    
+    margin-top: 10px; 
 }
 
 /* 公司信息 */
