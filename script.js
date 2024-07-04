@@ -188,7 +188,7 @@ products.forEach(product => {
     `;
 
     const button = document.createElement('button');
-    button.innerText = '購買';
+    button.innerText = '登入購買';
     button.onclick = (event) => {
         event.preventDefault();
         showPopupBeforeUnload();
