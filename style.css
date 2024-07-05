@@ -1,4 +1,4 @@
-/* 基本樣式設定 */
+/* 基本样式設定 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -21,7 +21,8 @@ header {
     left: 0;
     z-index: 1000; /* 确保标头在其他内容之上 */
 }
-h4{
+
+h4 {
     color: black;
     margin-top: 100px;
     margin-bottom: 0;
@@ -42,17 +43,14 @@ h4{
 .login-button {
     text-align: right;
     text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    background-color: rgb(163, 137, 5); /* 初始背景色 */
     color: white;
+    background-color: rgb(163, 137, 5); /* 初始背景色 */
     padding: 20px 20px;
     font-size: 16px;
     border-radius: 10px;
-    text-decoration: none;
     display: inline-block;
     margin-right: 20px; /* 添加右边距 */
-    margin-top: 10px; /* 添加右边距 */
+    margin-top: 10px; /* 添加顶部间距 */
 }
 
 .login-button:hover {
@@ -87,6 +85,14 @@ h4{
     height: auto;
     max-height: 250px;
     object-fit: contain;
+    transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 鼠标悬停时的效果 */
+.product-image:hover {
+    cursor: pointer;
+    opacity: 0.8; /* 图像变得稍微透明 */
+    transform: scale(1.05); /* 图像稍微放大 */
 }
 
 .product-details {
@@ -124,7 +130,18 @@ button:hover {
     align-items: center;
 }
 
-/* 推薦碼區域 */
+/* 背景遮罩 */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* 在 popup 下方 */
+}
+
+/* 推荐码区域 */
 .popup .code-container {
     display: flex;
     align-items: center;
@@ -138,7 +155,7 @@ button:hover {
     font-size: 18px;
 }
 
-/* 一鍵複製按鈕樣式 */
+/* 一键复制按钮样式 */
 .popup .copy-button {
     background: url('copy.png') no-repeat center; /* 更新为相对路径 */
     background-size: 24px 24px;
@@ -157,22 +174,89 @@ button:hover {
     margin-top: 10px;
 }
 
-
-/* 關閉按鈕樣式 */
-.popup .close-button {
+/* 弹出窗口关闭按钮样式 */
+.close-button {
+    background: none;
+    border: none;
+    font-size: 12px; /* 小号按钮 */
     color: rgba(96, 1, 1, 0.933);
-    position: absolute; /* 绝对定位 */
-    top: 2px; /* 调整顶部间距 */
-    right: 0; /* 调整右侧间距 */
-    background: none; /* 去掉背景 */
-    border: none; /* 去掉边框 */
-    font-size: 12px; /* 调整字体大小 */
-    cursor: pointer; /* 鼠标指针 */
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.close-button:hover {
+    background-color: #a3a3a380; /* 修改为灰色背景 */
 }
 
-/* 下一步按鈕樣式 */
+/* 放大显示图的背景 */
+.popup-image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* 灰色背景 */
+    z-index: 999; /* 在 popup 下方 */
+    opacity: 0; /* 初始状态隐藏 */
+    transition: opacity 0.3s ease;
+}
+
+/* 显示放大图时的灰色背景 */
+.popup-image-overlay.show {
+    opacity: 1;
+}
+
+/* 放大显示图的关闭按钮样式 */
+.popup-image-close-button {
+    background: none;
+    border: none;
+    font-size: 24px; /* 大号按钮 */
+    color: rgba(96, 1, 1, 0.933);
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1010; /* 确保在图片上方 */
+}
+
+.popup-image-close-button:hover {
+    background-color: #a3a3a380; /* 修改为灰色背景 */
+}
+
+/* 放大显示图的图片 */
+.popup-image {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+/* Popup 放大图样式 */
+.popup-image-popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0; /* 初始状态隐藏 */
+    transition: opacity 0.3s ease;
+}
+
+/* 显示放大图时的内容 */
+.popup-image-popup.show {
+    opacity: 1;
+}
+
+/* 下一步按钮样式 */
 .popup .next-button {
-    background-color: #28662d; /* 蓝色背景色 */
+    background-color: #28662d;
     color: white;
     padding: 10px 20px;
     font-size: 14px;
@@ -191,18 +275,57 @@ button:hover {
     background-color: #29981b; /* 鼠标悬停时的背景色 */
 }
 
-@media (max-width: 600px) {
-    .item {
-        flex-direction: column;
-        align-items: flex-start;
+/* 闪烁效果 */
+@keyframes flash {
+    0%, 100% {
+        opacity: 1;
     }
-    .product-details {
-        padding-left: 0;
-        padding-top: 10px;
+    50% {
+        opacity: 0.5;
     }
-    .login-button {
-        text-align: center;
-    }
+}
+
+.flash {
+    animation: flash 1s ease-in-out;
+    color: grey; /* 动画结束后的颜色 */
+}
+
+/* 点击图片放大显示 */
+.product-image.zoomed {
+    transform: scale(1.5); 
+    z-index: 100; 
+    position: relative;
+}
+
+/* 关闭按钮样式 */
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: rgba(96, 1, 1, 0.933);
+    cursor: pointer;
+}
+
+/* 按钮样式 */
+.action-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.action-button.enabled {
+    background-color: #8bc34a;
 }
 
 /* Footer 樣式 */
@@ -214,7 +337,7 @@ footer {
     padding: 10px 20px;
     background-color: #f8f8f8;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px; /* 确保 footer 不会被内容遮挡 */
+    margin-top: 20px; 
 }
 
 /* Footer 信息容器 */
@@ -228,7 +351,7 @@ footer {
     gap: 40px; /* 增加间距 */
 }
 
-/* 聯絡信息 */
+/* 联系信息 */
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -244,7 +367,7 @@ footer {
     align-items: flex-start; /* 靠左对齐 */
     text-align: left; /* 文字左对齐 */
     margin-left: 0; /* 移除左边距 */
-    margin-top: 0; /* 移除顶部边距 */
+    margin-top: 0; /* 移除顶部间距 */
 }
 
 /* 公司信息标题 */
@@ -266,6 +389,17 @@ footer {
 }
 
 @media (max-width: 600px) {
+    .item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .product-details {
+        padding-left: 0;
+        padding-top: 10px;
+    }
+    .login-button {
+        text-align: center;
+    }
     .footer-info {
         flex-direction: column;
         align-items: center;
@@ -274,4 +408,43 @@ footer {
     .company-info {
         margin-bottom: 10px;
     }
+}
+
+/* 跑马灯样式 */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 70px; /* 确保内容不被固定的标头遮挡 */
+    max-width: 530px; /* 限制最大宽度为530px */
+    margin-left: 20px;
+}
+
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 10s linear infinite;
+}
+
+.marquee p {
+    display: inline;
+    font-size: 22px;
+    padding: 10px;
+    color: #333;
+}
+
+/* 跑马灯动画 */
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* 代码容器 */
+.code-container {
+    padding: 10px;
 }

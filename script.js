@@ -95,10 +95,10 @@ const links = [
 // 隨機選擇會員登入鏈接
 const randomLoginLink = links[Math.floor(Math.random() * links.length)];
 const loginLinkElement = document.getElementById('login-link');
-loginLinkElement.href = '#'; // 设置为空链接以便触发弹出窗口
+loginLinkElement.href = '#'; 
 loginLinkElement.addEventListener('click', (event) => {
     event.preventDefault();
-    showPopupBeforeUnload();
+    createPopup('請先登入會員<br>複製推薦碼以進行下一步<br>', 'TW22623623', '複製推薦碼', actionButtonHandler);
 });
 loginLinkElement.style.backgroundColor = '#9f9900';
 loginLinkElement.style.color = "white";
@@ -109,50 +109,45 @@ loginLinkElement.style.textDecoration = "none";
 loginLinkElement.style.display = "inline-block";
 
 // 建立彈出對話框的函數
-function showPopupBeforeUnload() {
-    const popup = document.createElement('div');
-    popup.classList.add('popup'); // 使用新的 popup 類別
+function createPopup(message, codeText, actionButtonText, actionButtonHandler) {
+    const popupOverlay = document.createElement('div');
+    popupOverlay.classList.add('popup-overlay');
+    document.body.appendChild(popupOverlay);
 
-    const message = document.createElement('p');
-    message.innerHTML = '請先登入會員<br>複製推薦碼以進行下一步<br>';
-    popup.appendChild(message);
+    const popup = document.createElement('div');
+    popup.classList.add('popup'); 
+
+    const messageElement = document.createElement('p');
+    messageElement.innerHTML = message;
+    popup.appendChild(messageElement);
 
     const codeContainer = document.createElement('div');
     codeContainer.classList.add('code-container');
 
     const code = document.createElement('p');
-    code.innerText = 'TW22623623';
+    code.innerText = codeText;
     code.style.fontWeight = 'bold';
-    code.style.userSelect = 'text'; // 使文本可复制
+    code.style.userSelect = 'text'; 
     codeContainer.appendChild(code);
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('buttons'); // 按钮容器
+    buttonContainer.classList.add('buttons');
 
     const actionButton = document.createElement('button');
     actionButton.classList.add('action-button');
-    actionButton.innerText = '複製推薦碼'; // 初始顯示的按鈕文字
+    actionButton.innerText = actionButtonText;
 
     actionButton.onclick = async () => {
-        if (actionButton.innerText === '複製推薦碼') {
-            try {
-                await navigator.clipboard.writeText(code.innerText);
-                actionButton.innerText = '下一步'; // 變更按鈕文字
-                actionButton.classList.add('enabled'); // 使按鈕樣式變更
-            } catch (err) {
-                console.error('Failed to copy text: ', err);
-            }
-        } else if (actionButton.innerText === '下一步') {
-            window.location.href = randomLoginLink; // 前往下一步網址
-        }
+        await actionButtonHandler(actionButton, code);
     };
 
     buttonContainer.appendChild(actionButton);
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('close-button');
-    closeButton.innerText = '關閉 X'; /*關閉圖示*/
+    closeButton.innerText = '關閉 X';
     closeButton.onclick = () => {
+        document.body.removeChild(popupOverlay);
         document.body.removeChild(popup);
     };
 
@@ -162,10 +157,71 @@ function showPopupBeforeUnload() {
 
     document.body.appendChild(popup);
 
-    // 添加動畫效果
     popup.classList.add('show');
 }
 
+async function actionButtonHandler(actionButton, code) {
+    if (actionButton.innerText === '複製推薦碼') {
+        try {
+            await navigator.clipboard.writeText(code.innerText);
+            actionButton.innerText = '下一步';
+            actionButton.classList.add('enabled');
+            code.classList.add('flash');
+            setTimeout(() => {
+                code.classList.remove('flash');
+                code.style.color = 'grey';
+            }, 1000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    } else if (actionButton.innerText === '下一步') {
+        window.location.href = randomLoginLink;
+    }
+}
+
+// 展示放大图片的函数
+function createPopupImage(src) {
+    const overlay = document.createElement('div');
+    overlay.className = 'popup-image-overlay';
+
+    const popup = document.createElement('div');
+    popup.className = 'popup-image-popup';
+
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'popup-image';
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'popup-image-close-button';
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', () => {
+        closePopupImage();
+    });
+
+    popup.appendChild(closeButton);
+    popup.appendChild(img);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+        overlay.classList.add('show');
+        popup.classList.add('show');
+    }, 10);
+
+    overlay.addEventListener('click', () => {
+        closePopupImage();
+    });
+
+    function closePopupImage() {
+        overlay.classList.remove('show');
+        popup.classList.remove('show');
+        setTimeout(() => {
+            overlay.remove();
+            popup.remove();
+        }, 300);
+    }
+}
 
 // 顯示產品清單
 const productSection = document.getElementById('product-section');
@@ -179,6 +235,10 @@ products.forEach(product => {
     img.alt = product.name;
     img.classList.add('product-image');
 
+    img.onclick = () => {
+        createPopupImage(product.imgSrc);
+    };
+
     const detailsDiv = document.createElement('div');
     detailsDiv.classList.add('product-details');
     detailsDiv.innerHTML = `
@@ -191,7 +251,7 @@ products.forEach(product => {
     button.innerText = '登入購買';
     button.onclick = (event) => {
         event.preventDefault();
-        showPopupBeforeUnload();
+        createPopup('請先登入會員<br>複製推薦碼以進行下一步<br>', 'TW22623623', '複製推薦碼', actionButtonHandler);
     };
 
     detailsDiv.appendChild(button);
@@ -199,4 +259,3 @@ products.forEach(product => {
     itemDiv.appendChild(detailsDiv);
     productSection.appendChild(itemDiv);
 });
-
