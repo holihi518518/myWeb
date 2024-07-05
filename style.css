@@ -13,7 +13,7 @@ header {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     background-color: #f8f8f8;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed; /* 固定在视口顶部 */
@@ -33,18 +33,18 @@ h4 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 100px; /*保持置中*/
+    margin-left: 100px; /*保持置中*/ 
 }
 
 .logo {
-    max-height: 50px;
+    max-height: 55px;
 }
 
 .login-button {
     text-align: right;
     text-decoration: none;
     color: white;
-    background-color: rgb(163, 137, 5); /* 初始背景色 */
+    background-color: rgb(231, 193, 6); /* 初始背景色 */
     padding: 20px 20px;
     font-size: 16px;
     border-radius: 10px;
@@ -99,6 +99,12 @@ h4 {
     flex: 1;
     padding-left: 10px;
 }
+
+.product-details p {
+    margin: 5px 0; /* 将间距缩小到 5px */
+}
+
+
 
 button {
     padding: 10px 20px;
@@ -447,4 +453,48 @@ footer {
 /* 代码容器 */
 .code-container {
     padding: 10px;
+}
+
+
+
+/* CSS 代码片段 */
+#visitor-count {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    margin-top: 20px;
+    background-color: rgba(94, 94, 94, 0.7); /* 黑色半透明背景 */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1000; /* 确保显示在最上层 */
+}
+
+#visitor-count-number {
+    font-weight: bold;
+}
+
+
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 按钮和计数器之间的间隔 */
+}
+
+.view-counter {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.view-counter span {
+    font-weight: bold;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 }
