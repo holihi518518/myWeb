@@ -498,3 +498,15 @@ footer {
     align-items: flex-start;
     gap: 10px;
 }
+
+
+.popular-icon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 70px; /* 根据需要调整图标大小 */
+    height: 90px;
+    background: url('popular.png') no-repeat center center;
+    background-size: contain;
+    z-index: 10;
+}
