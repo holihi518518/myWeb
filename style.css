@@ -63,7 +63,7 @@ h4 {
     align-items: center;
     width: 100%;
     padding: 10px;
-    margin-top: 10px; /* 确保内容不被固定的标头遮挡 */
+    margin-top: 10px; 
 }
 
 .item {
@@ -447,7 +447,6 @@ footer {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 70px; /* 确保内容不被固定的标头遮挡 */
     max-width: 530px; /* 限制最大宽度为530px */
-    margin-left: 20px;
 }
 
 .marquee {
@@ -539,6 +538,7 @@ footer {
     height: 300px; /* 轮播图的高度 */
     position: relative;
     margin: 0 auto; /* 居中 */
+    
 }
 
 /* 图片容器 */
@@ -561,7 +561,25 @@ footer {
     100% { transform: translateX(-100%); } /* 从0%到-100%形成循环效果 */
 }
 
-/* 鼠标悬停时停止自动滚动 */
-.carousel:hover .carousel-slide {
-    animation-play-state: paused;
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .carousel {
+        overflow: hidden;
+        width: 100%;
+        max-width: 480px; /* 最大宽度，调整为适当尺寸 */
+        height: 270px; /* 轮播图的高度 */
+        position: relative;
+        margin: 0 auto; /* 居中 */
+    }
+}
+/* 响应式设计 */
+@media (max-width: 468px) {
+    .carousel {
+        overflow: hidden;
+        width: 100%;
+        max-width: 350px; /* 最大宽度，调整为适当尺寸 */
+        height: 200px; /* 轮播图的高度 */
+        position: relative;
+        margin: 0 auto; /* 居中 */
+    }
 }

@@ -145,7 +145,7 @@ function showPopupBeforeUnload() {
     popup.appendChild(closeButton);
 
     const message = document.createElement('p');
-    message.innerHTML = '請先登入會員<br>複製推薦碼以進行下一步<br>';
+    message.innerHTML = '登入會員<br>複製推薦碼以進行下一步<br>';
     popup.appendChild(message);
 
     const codeContainer = document.createElement('div');
