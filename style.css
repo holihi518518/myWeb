@@ -98,6 +98,10 @@ h4 {
 .product-details {
     flex: 1;
     padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .product-details p {
@@ -334,6 +338,14 @@ button:hover {
     background-color: #8bc34a;
 }
 
+.action-button.enabled:hover {
+    background-color: #86ff05; /* 悬停状态的背景色 */
+}
+
+
+
+
+
 /* Footer 樣式 */
 footer {
     display: flex;
@@ -357,6 +369,7 @@ footer {
     gap: 40px; /* 增加间距 */
 }
 
+
 /* 联系信息 */
 .contact-info {
     display: flex;
@@ -365,7 +378,6 @@ footer {
     text-align: center;    
     margin-top: 10px; 
 }
-
 /* 公司信息 */
 .company-info {
     display: flex;
@@ -375,6 +387,7 @@ footer {
     margin-left: 0; /* 移除左边距 */
     margin-top: 0; /* 移除顶部间距 */
 }
+
 
 /* 公司信息标题 */
 .company-info h3 {
@@ -409,11 +422,21 @@ footer {
     .footer-info {
         flex-direction: column;
         align-items: center;
+        flex-direction: column;
+        gap: 20px; /* 小屏幕上减少间距 */
     }
     .contact-info,
-    .company-info {
+    .contact-info {
         margin-bottom: 10px;
     }
+    footer {
+        padding: 10px;
+    }
+    .marquee-container {
+        max-width: 100%; /* 小屏幕上全宽 */
+        margin-left: 0; /* 移除左边距 */
+    }
+    
 }
 
 /* 跑马灯样式 */
@@ -475,13 +498,6 @@ footer {
     font-weight: bold;
 }
 
-
-.button-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 按钮和计数器之间的间隔 */
-}
-
 .view-counter {
     margin: 0;
     font-size: 14px;
@@ -491,14 +507,6 @@ footer {
 .view-counter span {
     font-weight: bold;
 }
-
-.product-details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
 
 .popular-icon {
     position: absolute;
@@ -519,4 +527,41 @@ footer {
 
 .LINE-TOLK a {
     display: inline-block;
+}
+
+
+
+/* 轮播图容器 */
+.carousel {
+    overflow: hidden;
+    width: 100%;
+    max-width: 530px; /* 最大宽度，调整为适当尺寸 */
+    height: 300px; /* 轮播图的高度 */
+    position: relative;
+    margin: 0 auto; /* 居中 */
+}
+
+/* 图片容器 */
+.carousel-slide {
+    display: flex;
+    width: 100%; /* 设为图片总宽度 */
+    height: 100%; /* 轮播图的高度 */
+    transition: transform 1s ease-in-out; /* 添加过渡效果 */
+}
+
+/* 使图片在容器内按比例缩放 */
+.carousel-slide img {
+    width: 100%; /* 图片宽度为容器的宽度 */
+    height: auto; /* 自动调整高度以保持比例 */
+}
+
+/* 动态效果 */
+@keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); } /* 从0%到-100%形成循环效果 */
+}
+
+/* 鼠标悬停时停止自动滚动 */
+.carousel:hover .carousel-slide {
+    animation-play-state: paused;
 }

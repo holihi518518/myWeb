@@ -116,13 +116,15 @@ if (loginLinkElement) {
         event.preventDefault();
         showPopupBeforeUnload();
     });
-    loginLinkElement.style.backgroundColor = '#9f9900';
-    loginLinkElement.style.color = "white";
-    loginLinkElement.style.padding = "10px 20px";
-    loginLinkElement.style.fontSize = "16px";
-    loginLinkElement.style.borderRadius = "5px";
-    loginLinkElement.style.textDecoration = "none";
-    loginLinkElement.style.display = "inline-block";
+    Object.assign(loginLinkElement.style, {
+        backgroundColor: '#9f9900',
+        color: 'white',
+        padding: '10px 20px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        textDecoration: 'none',
+        display: 'inline-block'
+    });
 }
 
 function showPopupBeforeUnload() {
@@ -195,6 +197,7 @@ function showPopupBeforeUnload() {
     document.body.appendChild(popup);
 }
 
+
 // 展示产品清单
 function displayProducts() {
     const productSection = document.getElementById('product-section');
@@ -230,6 +233,7 @@ function displayProducts() {
         button.onclick = (event) => {
             event.preventDefault();
             showPopupBeforeUnload();
+            updateViewCounter(product.id); // 更新产品的点阅次数
         };
 
         // 创建按钮容器
@@ -253,7 +257,6 @@ function displayProducts() {
     // 调用函数以展示热门商品
     displayTopProducts();
 }
-
 
 // 创建放大显示图片的函数
 function createPopupImage(src) {
@@ -285,11 +288,12 @@ function createPopupImage(src) {
 
     document.body.appendChild(popupImage);
 }
+
 // 确保在页面加载完毕后调用
 document.addEventListener('DOMContentLoaded', () => {
-    setupImageClickEvents(); // 设置产品图片的点击事件
+    displayProducts(); // 调用 displayProducts 函数以展示产品
+    setupCarousel(); // 设置轮播图
 });
-
 
 // 展示热门商品榜单的前三名商品
 function displayTopProducts() {
@@ -329,4 +333,31 @@ function displayTopProducts() {
     });
 }
 
-displayProducts();
+
+
+
+
+
+
+
+const carouselSlide = document.querySelector('.carousel-slide');
+const images = document.querySelectorAll('.carousel-slide img');
+
+// 计算图片总数量
+const totalImages = images.length;
+let index = 0;
+
+// 每3秒切换一张图片
+function changeSlide() {
+    index++;
+    if (index >= totalImages) {
+        index = 0; // 重置索引以实现循环
+    }
+    const offset = -index * 100; // 计算偏移量
+    carouselSlide.style.transform = `translateX(${offset}%)`;
+}
+
+// 每3秒调用一次changeSlide函数
+setInterval(changeSlide, 5000);
+
+
