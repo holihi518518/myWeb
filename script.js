@@ -1,5 +1,5 @@
 
-// 产品数据（省略内容，提供了 const products 变量）
+// 产品数据
 const products = [
     {
         imgSrc: "https://www.yucheng-cms.com/MYCData/MYC01SS/Images/Product/A001-2.png",
@@ -100,92 +100,6 @@ const products = [
         id: 'E024'
     }
 ];
-let visitorCount = 0;
-let viewCounts = {};
-
-// 从服务器获取当前的访客计数和产品点阅人次计数
-function fetchCounts() {
-    fetch('data.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'get_counts'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 更新访客计数
-        visitorCount = data.visitor_count;
-        viewCounts = data.product_view_counts || {};
-        localStorage.setItem('visitorCount', visitorCount);
-        localStorage.setItem('viewCounts', JSON.stringify(viewCounts));
-        updateVisitorCountDisplay();
-
-        // 增加访问人数
-        updateVisitorCount();
-
-        // 初始化产品列表
-        displayProducts();
-    })
-    .catch(error => console.error('Error getting counts:', error));
-}
-
-// 更新网页上的显示
-function updateVisitorCountDisplay() {
-    const visitorCountElement = document.getElementById('visitor-count-number');
-    if (visitorCountElement) {
-        visitorCountElement.innerText = visitorCount;
-    }
-}
-
-// 更新总访问人数
-function updateVisitorCount() {
-    fetch('data.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'update_visitor_count'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 更新总访问人数
-        visitorCount = data.visitor_count;
-        localStorage.setItem('visitorCount', visitorCount);
-        updateVisitorCountDisplay();
-    })
-    .catch(error => console.error('Error updating visitor count:', error));
-}
-
-// 更新总访问人数显示
-function updateVisitorCountDisplay() {
-    const visitorCountElement = document.getElementById('visitor-count-number');
-    if (visitorCountElement) {
-        visitorCountElement.innerText = visitorCount;
-    }
-}
-
-// 页面加载时初始化数据
-window.onload = () => {
-    fetchCounts();  // 获取数据并初始化产品列表
-    updateVisitorCount();  // 更新总访问人数
-
-    // 点击“登入购买”按钮时调用 updateViewCounter 函数
-    document.querySelectorAll('.action-button').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productId = event.target.getAttribute('data-product-id');
-            if (productId) {
-                updateViewCounter(productId);  // 传入当前产品的 ID
-            }
-        });
-    });
-};
-
-
 
 // 合并推荐人网址和会员登录网址
 const links = [
@@ -286,10 +200,7 @@ function displayProducts() {
     const productSection = document.getElementById('product-section');
 
     // 先排序产品列表，将热门产品排在前面
-    const sortedProducts = products.slice().sort((a, b) => {
-        const viewCounts = JSON.parse(localStorage.getItem('viewCounts')) || {};
-        return (viewCounts[b.id] || 0) - (viewCounts[a.id] || 0);
-    });
+    const sortedProducts = products.slice(); // 移除根据点购人次计数排序
 
     sortedProducts.forEach((product, index) => {
         const itemDiv = document.createElement('div');
@@ -313,25 +224,18 @@ function displayProducts() {
             <p style="font-size: 16px;">${product.price}</p>
         `;
 
-        // 创建显示点阅人次的元素
-        const counterDiv = document.createElement('div');
-        counterDiv.classList.add('view-counter');
-        counterDiv.innerHTML = `<span>點購人次: </span><span id="counter-${product.id}">${(JSON.parse(localStorage.getItem('viewCounts')) || {})[product.id] || 0}</span>`;
-
         // 创建“登录购买”按钮
         const button = document.createElement('button');
         button.innerText = '登入購買';
         button.onclick = (event) => {
             event.preventDefault();
-            updateViewCounter(product.id);
             showPopupBeforeUnload();
         };
 
-        // 创建按钮和点阅人次计数器的容器
+        // 创建按钮容器
         const buttonContainer = document.createElement('div');
         buttonContainer.classList.add('button-container');
         buttonContainer.appendChild(button);
-        buttonContainer.appendChild(counterDiv);
 
         detailsDiv.appendChild(buttonContainer);
         itemDiv.appendChild(img);
@@ -381,39 +285,11 @@ function createPopupImage(src) {
 
     document.body.appendChild(popupImage);
 }
-
-
-
-
 // 确保在页面加载完毕后调用
 document.addEventListener('DOMContentLoaded', () => {
     setupImageClickEvents(); // 设置产品图片的点击事件
 });
 
-
-// 更新产品的点阅人次计数器
-function updateViewCounter(productId) {
-    const viewCounts = JSON.parse(localStorage.getItem('viewCounts')) || {};
-    viewCounts[productId] = (viewCounts[productId] || 0) + 1;
-    localStorage.setItem('viewCounts', JSON.stringify(viewCounts));
-    document.getElementById(`counter-${productId}`).innerText = viewCounts[productId];
-
-    fetch('data.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'increment_product_view_count',
-            productId: productId
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Product view count updated:', data);
-    })
-    .catch(error => console.error('Error updating product view count:', error));
-}
 
 // 展示热门商品榜单的前三名商品
 function displayTopProducts() {
@@ -452,23 +328,5 @@ function displayTopProducts() {
         topProductsContainer.appendChild(topItemDiv);
     });
 }
-
-// 初始化访客计数器和产品列表
-fetch('data.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        action: 'increment_visitor_count'
-    })
-})
-.then(response => response.json())
-.then(data => {
-    visitorCount = data.visitor_count;
-    localStorage.setItem('visitorCount', visitorCount);
-    updateVisitorCountDisplay();
-})
-.catch(error => console.error('Error updating visitor count:', error));
 
 displayProducts();

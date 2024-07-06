@@ -510,3 +510,13 @@ footer {
     background-size: contain;
     z-index: 10;
 }
+
+
+.LINE-TOLK {
+    display: flex;
+    gap: 40px; /* 可以根据需要调整间距 */
+}
+
+.LINE-TOLK a {
+    display: inline-block;
+}
