@@ -571,6 +571,11 @@ footer {
         position: relative;
         margin: 0 auto; /* 居中 */
     }
+    .disclaimer {
+        font-size: 10px; /* 更小字体以适应小屏幕 */   
+        margin: 20px;
+        margin-bottom: 0;
+    }
 }
 /* 响应式设计 */
 @media (max-width: 468px) {
@@ -582,4 +587,14 @@ footer {
         position: relative;
         margin: 0 auto; /* 居中 */
     }
+}
+
+
+/* 声明部分 */
+.disclaimer {
+    text-align: center;
+    font-size: 12px; /* 调整字体大小 */
+    padding: 10px;
+    color: #333;
+    margin-top: 20px;
 }
